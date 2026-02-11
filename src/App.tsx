@@ -1,11 +1,12 @@
-
 import './App.css'
-import Auth from './pages/auth/auth'
-function App() {
+import { AuthPage } from './features/auth'
+import { DashboardUsersManage } from './features/admin-users'
 
+function App() {
   return (
     <div>
-         <Auth />
+      <AuthPage />
+      <DashboardUsersManage />
     </div>
   )
 }

@@ -1,4 +1,81 @@
-# React + TypeScript + Vite
+# Scolar Auth Users Front
+
+Application frontend pour l'authentification et la gestion des utilisateurs.
+
+## Structure du projet
+
+Le projet est organisé en **modules par feature** pour faciliter la collaboration :
+
+```
+src/
+├── features/
+│   ├── auth/                    # Module d'authentification
+│   │   ├── components/         # Composants spécifiques à l'auth
+│   │   ├── pages/              # Pages d'authentification
+│   │   ├── hooks/              # Hooks React spécifiques
+│   │   ├── services/           # Services API/auth
+│   │   ├── types/              # Types TypeScript spécifiques
+│   │   └── index.ts            # Export public du module
+│   │
+│   └── admin-users/            # Module de gestion des utilisateurs
+│       ├── components/         # Composants spécifiques à l'admin
+│       ├── pages/              # Pages d'administration
+│       ├── hooks/              # Hooks React spécifiques
+│       ├── services/           # Services API/admin
+│       ├── types/              # Types TypeScript spécifiques
+│       └── index.ts            # Export public du module
+│
+├── shared/                     # Code partagé entre les modules
+│   ├── components/            # Composants réutilisables
+│   ├── hooks/                  # Hooks réutilisables
+│   ├── utils/                 # Utilitaires
+│   └── types/                 # Types partagés
+│
+├── routes/                     # Configuration des routes
+├── App.tsx                     # Composant racine
+└── main.tsx                    # Point d'entrée
+```
+
+## Organisation du travail
+
+### CALEB : Module Auth (`features/auth/`)
+- Travaille exclusivement dans `src/features/auth/`
+- Peut utiliser les composants/services de `shared/`
+- Exporte son API via `features/auth/index.ts`
+
+### YANN : Module Admin Users (`features/admin-users/`)
+- Travaille exclusivement dans `src/features/admin-users/`
+- Peut utiliser les composants/services de `shared/`
+- Exporte son API via `features/admin-users/index.ts`
+
+## Règles de collaboration
+
+1. **Pas de modifications dans le dossier de l'autre développeur**
+2. **Pour partager du code** : utiliser `shared/`
+3. **Pour importer un module** : utiliser les exports depuis `features/[module]/index.ts`
+4. **Types communs** : placer dans `shared/types/`
+
+## Installation
+
+```bash
+bun install
+```
+
+## Développement
+
+```bash
+bun run dev
+```
+
+## Build
+
+```bash
+bun run build
+```
+
+---
+
+## React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 

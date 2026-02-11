@@ -1,7 +1,4 @@
-
-
-
-function Auth() {
+function AuthPage() {
   return (
     <div>
       <h1>Auth Page</h1>
@@ -9,4 +6,4 @@ function Auth() {
   )
 }
 
-export default Auth
+export default AuthPage
