@@ -55,6 +55,87 @@ src/
 3. **Pour importer un module** : utiliser les exports depuis `features/[module]/index.ts`
 4. **Types communs** : placer dans `shared/types/`
 
+## Workflow Git avec branches
+
+Le projet utilise un système de branches pour faciliter la collaboration :
+
+### Branches disponibles
+
+- **`main`** : Branche principale (production-ready)
+- **`feature/auth`** : Branche pour le développement du module d'authentification
+- **`feature/admin-users`** : Branche pour le développement du module de gestion des utilisateurs
+
+### Instructions pour chaque développeur
+
+#### Développeur Auth (feature/auth)
+
+```bash
+# 1. Récupérer la dernière version
+git checkout main
+git pull origin main
+
+# 2. Basculer sur votre branche
+git checkout feature/auth
+
+# 3. Mettre à jour votre branche avec main
+git merge main  # ou git rebase main
+
+# 4. Travailler dans src/features/auth/
+# ... faire vos modifications ...
+
+# 5. Committer et pousser
+git add src/features/auth/
+git commit -m "feat(auth): description de vos changements"
+git push origin feature/auth
+```
+
+#### Développeur Admin Users (feature/admin-users)
+
+```bash
+# 1. Récupérer la dernière version
+git checkout main
+git pull origin main
+
+# 2. Basculer sur votre branche
+git checkout feature/admin-users
+
+# 3. Mettre à jour votre branche avec main
+git merge main  # ou git rebase main
+
+# 4. Travailler dans src/features/admin-users/
+# ... faire vos modifications ...
+
+# 5. Committer et pousser
+git add src/features/admin-users/
+git commit -m "feat(admin-users): description de vos changements"
+git push origin feature/admin-users
+```
+
+### Fusion dans main
+
+Quand une feature est prête :
+
+```bash
+# 1. S'assurer que main est à jour
+git checkout main
+git pull origin main
+
+# 2. Fusionner la branche feature
+git merge feature/auth  # ou feature/admin-users
+
+# 3. Résoudre les conflits si nécessaire (normalement peu probable grâce à la séparation)
+
+# 4. Pousser vers main
+git push origin main
+```
+
+### Avantages de cette approche
+
+- ✅ Chaque développeur travaille sur sa propre branche
+- ✅ Pas de conflits Git grâce à la séparation des modules
+- ✅ Intégration continue possible avec tests sur chaque branche
+- ✅ Code review facilité via Pull Requests sur GitHub
+
 ## Installation
 
 ```bash
