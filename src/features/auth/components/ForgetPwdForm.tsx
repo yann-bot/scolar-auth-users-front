@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { authClient } from "../../../lib/auth-client";
 import { routes } from "../../../routes";
+
+const API_URL = import.meta.env.VITE_AUTH_API_URL ?? "";
 
 export default function ForgetPwdForm() {
   const navigate = useNavigate();
@@ -29,12 +30,16 @@ export default function ForgetPwdForm() {
     setError("");
     setLoading(true);
     try {
-      const { error: err } = await authClient.resetPassword({
-        newPassword: password,
-        token,
+      const response = await fetch(`${API_URL}/auth/reset-password`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ code: token, newPassword: password }),
       });
-      if (err) {
-        setError(err.message ?? "Code invalide ou expiré");
+      const data = await response.json();
+
+      if (!data.success) {
+        setError(data.message ?? "Code invalide ou expiré");
         return;
       }
       navigate(routes.adminUsers);

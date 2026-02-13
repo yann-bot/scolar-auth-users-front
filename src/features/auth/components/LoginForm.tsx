@@ -16,18 +16,38 @@ export default function LoginForm() {
     e.preventDefault();
     setError("");
     setLoading(true);
+
+    // Validation côté client (évite les 500 sur formulaire vide)
+    if (!login.trim() || !password.trim()) {
+      setError("username et password sont requis");
+      setLoading(false);
+      return;
+    }
+
     try {
       const { data, error } = await authClient.signIn.username({
-        username: login,
+        username: login.trim(),
         password,
       });
+
       if (error) {
-        setError(error.message ?? "Identifiants invalides");
+        if (error.status === 401 || error.status === 403) {
+          setError(error.message ?? "Identifiants invalides");
+        } else {
+          setError(error.message ?? `Erreur serveur (${error.status})`);
+        }
         return;
       }
-      if (data) navigate(routes.adminUsers);
-    } catch {
-      setError("Impossible de contacter le serveur. Vérifiez votre connexion.");
+
+      if (data) {
+        navigate(routes.adminUsers);
+      } else {
+        setError("Aucune donnée reçue du serveur");
+      }
+    } catch (err) {
+      setError(
+        err instanceof Error ? err.message : "Impossible de contacter le serveur. Vérifiez votre connexion."
+      );
     } finally {
       setLoading(false);
     }
@@ -86,7 +106,7 @@ export default function LoginForm() {
                 })
               }
               className="w-full pt-6 pb-2 px-4 border-2 border-gray-200 rounded-xl focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100 outline-none transition-all duration-200 bg-white text-gray-900 placeholder-gray-400"
-              required
+              
             />
           </div>
 
@@ -117,7 +137,7 @@ export default function LoginForm() {
                 }
                 className="w-full pt-6 pb-2 px-4 pr-12 border-2 border-gray-200 rounded-xl focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100 outline-none transition-all duration-200 bg-white text-gray-900 placeholder-gray-400"
                 placeholder="Votre mot de passe"
-                required
+                
               />
               <button
                 type="button"
